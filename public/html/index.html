@@ -1,22 +1,24 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
         <title>Document</title>
-        <link rel="stylesheet" href="styles.css" />
-    </head>
-    <body>
-        <form action="/login" method="post">
-            <label>client id:</label>
-            <input type="text" name="client_id" id="client_id" /><br />
-            <label>secret:</label>
-            <input type="text" name="secret" id="secret" /><br />
-            <input type="submit" value="submit" />
-        </form>\
-        <h1>hi
-            
-        </h1>
-    </body>
+        <link rel="stylesheet" href="Bliss_music_login.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    
+</head>
+<body>  
+    <form action="/login" method="post"> 
+        <h3>Login</h3>
+        <label for="client_id">Username</label>
+        <input type="text" placeholder="username" id="client_id" name="client_id">
+        <label for="secret">Password</label>
+        <input type="password" placeholder="code" id="secret" name="secret">
+        <button id="submit" value="Submit">Submit</button>      
+    </form>
+</body>
 </html>

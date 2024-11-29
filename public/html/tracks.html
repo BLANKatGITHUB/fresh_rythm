@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <link rel="stylesheet" href="../css/tracks.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+     <img id="logo" src="../images/logo.jpeg"/>
+     <h6 id="title">Fresh Rythm</h6>
+    </header>
+
+
+    <footer id="music-player">
+        <div id="track-info" class="hidden">
+            <img id="track-img" src="" alt="Track Image">
+            <span id="track-name">Track Name</span>
+        </div>
+        <div class="status">
+            <div id="playback-status">
+                <span id="current-time">0:00</span>
+                <progress id="progress-bar" value="0" max="100"></progress>
+                <span id="total-duration">0:00</span>
+            </div>
+            <div class="controls">
+                <button id="prev"><i class="fas fa-backward"></i></button>
+                <button id="play-pause"><i class="fas fa-play"></i></button>
+                <button id="next"><i class="fas fa-forward"></i></button>
+            </div>
+        </div>
+        <div class="volume-container">
+            <i class="fas fa-volume-up" id="volume-icon"></i>
+            <input type="range" id="volume-control" min="0" max="100" value="50">
+        </div>
+    </footer>
+
+</body>
+</html>

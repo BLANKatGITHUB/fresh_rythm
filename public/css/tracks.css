@@ -31,9 +31,8 @@ header{
 }
 
 #music-player {
-    display: flex;
-    justify-content:space-between;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
     padding: 10px;
     background-color: black;
     position: fixed;
@@ -49,7 +48,7 @@ header{
     gap: 10px;
     align-items: center;
     justify-content: center;
-    width: 300px;
+
 }
 .controls{
     display: flex;
@@ -92,7 +91,7 @@ header{
     display: flex;
     align-items: center;
     justify-content: end;
-    width: 300px;
+
     
 }
 
@@ -109,7 +108,7 @@ header{
 #track-info {
     display: flex;
     align-items: center;
-    width: 300px;
+    
     
 }
 
@@ -140,4 +139,49 @@ header{
 
 .visible {
     visibility: visible;
+}
+
+#track-columns{
+    margin-top: 11vh;
+    color: rgb(161, 161, 161);
+    display: grid;
+    grid-template-columns: 0.5fr 2fr 2fr 2fr 1fr;
+}
+
+#tracks-container{
+    color: white;
+}
+
+hr{
+    border: 0.5px solid rgb(161, 161, 161);
+}
+
+#tracks{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.8);
+    box-shadow: 0 2px 5px rgba(73, 212, 84, 0.1);
+    
+}
+
+.track{
+    display: grid;
+    grid-template-columns: 0.5fr 2fr 2fr 2fr 1fr;
+    gap: 10px;
+    font-size: 0.8rem;
+    background-color: rgba(0, 0, 0, 0.8); 
+}
+
+.track:hover{
+    background-color: rgba(0, 0, 0, 0.9);
+    box-shadow: 0 4px 10px rgba(228, 91, 91, 0.3);
+    cursor: pointer;
+}
+
+.track-name, .track-artist, .track-album, .track-duration{
+    color: white;
+
 }

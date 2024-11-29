@@ -1,7 +1,12 @@
 var accesstoken = "";
 let deviceId = null;
 
-window.onSpotifyWebPlaybackSDKReady = () => {
+    
+window.onSpotifyWebPlaybackSDKReady = async () => {
+    try {
+    let response = await fetch('http://localhost:3000/spotify_token');
+    const data = await response.json();
+    accesstoken = data.accessToken;
     const token = accesstoken;
     const player = new Spotify.Player({
       name: 'Web Playback SDK Quick Start Player',
@@ -25,7 +30,18 @@ window.onSpotifyWebPlaybackSDKReady = () => {
 
 
     document.getElementById('toggle-play').onclick = function() {
-        player.togglePlay();
+        player.togglePlay().then(() => {
+            const playButtonIcon = document.getElementById('toggle-play').querySelector('i');
+            player.getCurrentState().then(state => {
+                if (state.paused) {
+                    playButtonIcon.classList.remove('fa-play');
+                    playButtonIcon.classList.add('fa-pause');
+                } else {
+                    playButtonIcon.classList.remove('fa-pause');
+                    playButtonIcon.classList.add('fa-play');
+                }
+            });
+        });
     };
 
     document.getElementById('prev').onclick = function() {
@@ -56,9 +72,16 @@ window.onSpotifyWebPlaybackSDKReady = () => {
         }
     }, 1000);
 
+
+    getSavedTracks();
+
+} catch (error) {
+    console.error('Error:', error);
+}
+
 };
 
-playTrack(deviceId,"spotify:track:1QV6tiMFM6fSOKOGLMHYYg");
+
 
 
 function playTrack(device_id, trackUri) {
@@ -69,7 +92,7 @@ function playTrack(device_id, trackUri) {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${accesstoken}`
         },
-    }).then(response => {
+    }).then(response => {tracks
         if (response.status === 204) {
             console.log('Track is playing');
         } else {
@@ -85,5 +108,35 @@ function formatTime(ms) {
     const seconds = ((ms % 60000) / 1000).toFixed(0);
     return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
 }
+
+async function getSavedTracks(){
+    try{
+        const response = await fetch('https://api.spotify.com/v1/me/tracks', {
+            headers: {
+                'Authorization': `Bearer ${accesstoken}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = await response.json();
+        const tracks = data.items;
+        var count = 0;
+        tracks.forEach(track => {
+            const trackElement = document.createElement('div');
+            trackElement.classList.add('track');
+            trackElement.innerHTML = `
+                <span class="track-number">${++count}</span>
+                <span class="track-name">${track.track.name}</span>
+                <span class="track-artist">${track.track.artists.map(a => a.name).join(', ')}</span>
+                <span class="track-album">${track.track.album.name}</span>
+                <span class="track-duration">${formatTime(track.track.duration_ms)}</span>
+            `
+            document.getElementById('tracks').appendChild(trackElement);
+        });
+    }
+    catch(error){
+        console.error('Error:', error);
+    }
+}
+
 
 

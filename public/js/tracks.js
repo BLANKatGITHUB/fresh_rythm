@@ -72,7 +72,6 @@ window.onSpotifyWebPlaybackSDKReady = async () => {
         }
     }, 1000);
 
-
     getSavedTracks();
 
 } catch (error) {
@@ -80,8 +79,6 @@ window.onSpotifyWebPlaybackSDKReady = async () => {
 }
 
 };
-
-
 
 
 function playTrack(device_id, trackUri) {
@@ -93,6 +90,7 @@ function playTrack(device_id, trackUri) {
             'Authorization': `Bearer ${accesstoken}`
         },
     }).then(response => {tracks
+
         if (response.status === 204) {
             console.log('Track is playing');
         } else {
@@ -137,6 +135,4 @@ async function getSavedTracks(){
         console.error('Error:', error);
     }
 }
-
-
 

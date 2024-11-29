@@ -48,13 +48,11 @@ header{
     gap: 10px;
     align-items: center;
     justify-content: center;
-
 }
 .controls{
     display: flex;
     justify-content: center;
     align-items: center;
-    
 }
 
 .controls button {
@@ -91,13 +89,10 @@ header{
     display: flex;
     align-items: center;
     justify-content: end;
-
-    
 }
 
 #volume-control {
     width: 100px; 
-
 }
 
 #volume-icon{
@@ -108,8 +103,6 @@ header{
 #track-info {
     display: flex;
     align-items: center;
-    
-    
 }
 
 #track-info img {
@@ -183,5 +176,4 @@ hr{
 
 .track-name, .track-artist, .track-album, .track-duration{
     color: white;
-
 }

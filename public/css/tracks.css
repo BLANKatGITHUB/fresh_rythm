@@ -11,6 +11,10 @@ header{
     height:10vh;
     background-color: black;
     box-shadow: 0 2px 5px rgba(73, 212, 84, 0.1); 
+    position: fixed;
+    left: 0%;
+    right: 0%; 
+    top: 0%;
 
 }
 
@@ -28,14 +32,14 @@ header{
 
 #music-player {
     display: flex;
-    justify-content:space-around;
+    justify-content:space-between;
     align-items: center;
     padding: 10px;
     background-color: black;
     position: fixed;
     bottom: 0;
     left: 0;
-    width: 100%;
+    right: 0;
     box-shadow: 0 -2px 5px rgba(73, 212, 84, 0.1);
     height: 12vh;
 }
@@ -44,12 +48,14 @@ header{
     flex-direction: column;
     gap: 10px;
     align-items: center;
-    justify-content: center
+    justify-content: center;
+    width: 300px;
 }
 .controls{
     display: flex;
     justify-content: center;
     align-items: center;
+    
 }
 
 .controls button {
@@ -85,11 +91,14 @@ header{
 .volume-container {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: end;
+    width: 300px;
+    
 }
 
 #volume-control {
     width: 100px; 
+
 }
 
 #volume-icon{
@@ -100,7 +109,8 @@ header{
 #track-info {
     display: flex;
     align-items: center;
-    visibility: hidden; /* Initially hidden */
+    width: 300px;
+    
 }
 
 #track-info img {
@@ -113,6 +123,15 @@ header{
 #track-info span {
     color: white;
     font-size: 1rem; 
+    display: flex;
+    flex-wrap: wrap;
+    
+}
+
+#track-image {
+    width: 50px; 
+    height: 50px; 
+    border-radius: 5px;
 }
 
 .hidden {

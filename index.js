@@ -49,7 +49,7 @@ app.post(
 
 // Route to get the stored Spotify access token
 app.get('/user_login', (req, res) => {
-  const scope = 'user-library-read user-modify-playback-state user-read-playback-state user-read-currently-playing streaming app-remote-control';
+  const scope = 'user-library-read user-modify-playback-state user-read-playback-state user-read-currently-playing streaming app-remote-control user-top-read';
   const authUrl = 'https://accounts.spotify.com/authorize?' +
       querystring.stringify({
           response_type: 'code',

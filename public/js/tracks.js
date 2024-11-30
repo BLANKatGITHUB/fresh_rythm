@@ -1,5 +1,7 @@
 var accesstoken = "";
-let deviceId = null;
+var deviceId = null;
+var savedTracks = [];
+
 
     
 window.onSpotifyWebPlaybackSDKReady = async () => {
@@ -19,7 +21,32 @@ window.onSpotifyWebPlaybackSDKReady = async () => {
     player.addListener('ready', ({ device_id }) => {
         console.log('Ready with Device ID', device_id);
         deviceId = device_id;
-        playTrack(deviceId,["spotify:track:1QV6tiMFM6fSOKOGLMHYYg","spotify:track:5wG3HvLhF6Y5KTGlK0IW3J"]);
+        setInterval(async () => {
+            try{
+            const state = await player.getCurrentState();
+            if (state) {
+                const currentTrack = state.track_window.current_track;
+                const currentPosition = state.position;
+                const duration = currentTrack.duration_ms;
+    
+                document.getElementById('track-name').textContent = `${currentTrack.name} by ${currentTrack.artists.map(a => a.name).join(', ')}`;
+                document.getElementById('track-img').src = currentTrack.album.images[0].url;
+                document.getElementById('track-info').classList.remove('hidden');
+    
+                document.getElementById('current-time').textContent = formatTime(currentPosition);
+                document.getElementById('total-duration').textContent = formatTime(duration);
+                document.getElementById('progress-bar').value = (currentPosition / duration) * 100;
+
+                if (state.track_window.next_tracks.length == 0 && currentPosition >= 0.99*duration) {
+                    const tracks = await getUserTopTracks();
+                    const trackUris = tracks.map(track => track.uri);
+                    playTrack(deviceId, trackUris);
+                }
+            }
+
+        } catch(error){
+            }
+        }, 1000);
     });
 
     // Not Ready
@@ -51,26 +78,28 @@ window.onSpotifyWebPlaybackSDKReady = async () => {
     document.getElementById('next').onclick = function() {
         player.nextTrack();
     };
-  
 
-    player.connect();
+    document.getElementById("volume-control").oninput = function() {
+        player.setVolume(this.value / 100);
+    };
 
-    setInterval(async () => {
+    document.getElementById("progress-bar").onclick = async function(event) {
+        const progressBar = document.getElementById("progress-bar");
+        const rect = progressBar.getBoundingClientRect();
+        const clickX = event.clientX - rect.left;
+        const progressBarWidth = progressBar.offsetWidth;
+        const clickPositionRatio = clickX / progressBarWidth;
+    
         const state = await player.getCurrentState();
         if (state) {
-            const currentTrack = state.track_window.current_track;
-            const currentPosition = state.position;
-            const duration = currentTrack.duration_ms;
-
-            document.getElementById('track-name').textContent = `${currentTrack.name} by ${currentTrack.artists.map(a => a.name).join(', ')}`;
-            document.getElementById('track-img').src = currentTrack.album.images[0].url;
-            document.getElementById('track-info').classList.remove('hidden');
-
-            document.getElementById('current-time').textContent = formatTime(currentPosition);
-            document.getElementById('total-duration').textContent = formatTime(duration);
-            document.getElementById('progress-bar').value = (currentPosition / duration) * 100;
+            const duration = state.track_window.current_track.duration_ms;
+            const seekPosition = clickPositionRatio * duration;
+    
+            player.seek(seekPosition);
         }
-    }, 1000);
+    };
+
+    player.connect();
 
     getSavedTracks();
 
@@ -93,6 +122,12 @@ function playTrack(device_id, trackUri) {
 
         if (response.status === 204) {
             console.log('Track is playing');
+
+            const playButtonIcon = document.getElementById('toggle-play').querySelector('i');
+
+            playButtonIcon.classList.remove('fa-play');
+            playButtonIcon.classList.add('fa-pause');
+        
         } else {
             console.error('Failed to play track', response);
         }
@@ -128,11 +163,34 @@ async function getSavedTracks(){
                 <span class="track-album">${track.track.album.name}</span>
                 <span class="track-duration">${formatTime(track.track.duration_ms)}</span>
             `
+            trackElement.dataset.uri = track.track.uri;
+            trackElement.onclick = function() {
+                playTrack(deviceId, [this.dataset.uri]);
+            };
             document.getElementById('tracks').appendChild(trackElement);
+            savedTracks.push(track.track.uri);
         });
     }
     catch(error){
         console.error('Error:', error);
     }
+}
+
+async function getUserTopTracks() {
+    try {
+        const result = await fetch('https://api.spotify.com/v1/me/top/tracks', {
+                headers: {
+                    'Authorization': `Bearer ${accesstoken}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+        const data = await result.json();
+        return data.items;
+    }
+    catch(error){
+        console.error('Error:', error);
+    }
+    
 }
 

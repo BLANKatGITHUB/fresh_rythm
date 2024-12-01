@@ -25,22 +25,19 @@ window.onSpotifyWebPlaybackSDKReady = async () => {
             try{
             const state = await player.getCurrentState();
             if (state) {
-                const currentTrack = state.track_window.current_track;
-                const currentPosition = state.position;
-                const duration = currentTrack.duration_ms;
+                if(!state.paused){
+                    const currentTrack = state.track_window.current_track;
+                    const currentPosition = state.position;
+                    const duration = currentTrack.duration_ms;
     
-                document.getElementById('track-name').textContent = `${currentTrack.name} by ${currentTrack.artists.map(a => a.name).join(', ')}`;
-                document.getElementById('track-img').src = currentTrack.album.images[0].url;
-                document.getElementById('track-info').classList.remove('hidden');
+                    document.getElementById('track-name').textContent = `${currentTrack.name} by ${currentTrack.artists.map(a => a.name).join(', ')}`;
+                    document.getElementById('track-img').src = currentTrack.album.images[0].url;
+                    document.getElementById('track-info').classList.remove('hidden');
     
-                document.getElementById('current-time').textContent = formatTime(currentPosition);
-                document.getElementById('total-duration').textContent = formatTime(duration);
-                document.getElementById('progress-bar').value = (currentPosition / duration) * 100;
+                    document.getElementById('current-time').textContent = formatTime(currentPosition);
+                    document.getElementById('total-duration').textContent = formatTime(duration);
+                    document.getElementById('progress-bar').value = (currentPosition / duration) * 100;
 
-                if (state.track_window.next_tracks.length == 0 && currentPosition >= 0.99*duration) {
-                    const tracks = await getUserTopTracks();
-                    const trackUris = tracks.map(track => track.uri);
-                    playTrack(deviceId, trackUris);
                 }
             }
 
@@ -79,6 +76,41 @@ window.onSpotifyWebPlaybackSDKReady = async () => {
         player.nextTrack();
     };
 
+    document.getElementById('repeat').onclick = async function() {
+        const state = await player.getCurrentState();
+
+        if(state){
+            if(state.repeat_mode === 0){
+                setRepeat('context');
+            }
+
+            else{
+                setRepeat('off');
+            }
+
+            document.getElementById('repeat').classList.toggle('border-teal');
+
+        }
+
+    };
+
+    document.getElementById('shuffle').onclick = async function() {
+        const state = await player.getCurrentState();
+
+        if(state){
+            if(state.shuffle){
+                setShuffle('false');
+            }
+
+            else{
+                setShuffle('true');
+            }
+
+            document.getElementById('shuffle').classList.toggle('border-teal');
+
+        }
+    }
+
     document.getElementById("volume-control").oninput = function() {
         player.setVolume(this.value / 100);
     };
@@ -98,6 +130,18 @@ window.onSpotifyWebPlaybackSDKReady = async () => {
             player.seek(seekPosition);
         }
     };
+
+    player.addListener('player_state_changed', async ({
+        position,
+        paused,
+        track_window: { next_tracks }
+      }) => {
+        if (next_tracks.length == 0 && position == 0 && paused) {
+            const tracks = await getUserTopTracks();
+            const trackUris = tracks.map(track => track.uri);
+            playTrack(deviceId, trackUris);
+        }
+      });
 
     player.connect();
 
@@ -157,7 +201,7 @@ async function getSavedTracks(){
             const trackElement = document.createElement('div');
             trackElement.classList.add('track');
             trackElement.innerHTML = `
-                <span class="track-number">${++count}</span>
+                <span class="track-number"><i class="fas fa-play hover-play"></i>${++count}</span>
                 <span class="track-name">${track.track.name}</span>
                 <span class="track-artist">${track.track.artists.map(a => a.name).join(', ')}</span>
                 <span class="track-album">${track.track.album.name}</span>
@@ -194,3 +238,29 @@ async function getUserTopTracks() {
     
 }
 
+async function setRepeat(value){
+    try{
+        const response = await fetch(`https://api.spotify.com/v1/me/player/repeat?state=${value}`, {
+            method: 'PUT',
+            headers: {
+                Authorization: `Bearer ${accesstoken}`,
+                'Content-Type': 'application/json'
+            },
+        });
+    }catch(error){
+        console.error('Error:', error);
+    }}
+
+async function setShuffle(value){
+    try{
+        const response = await fetch(`https://api.spotify.com/v1/me/player/shuffle?state=${value}`, {
+            method: 'PUT',
+            headers: {
+                Authorization: `Bearer ${accesstoken}`,
+                'Content-Type': 'application/json'
+            },
+        });
+    }catch(error){
+        console.error('Error:', error);
+}
+}

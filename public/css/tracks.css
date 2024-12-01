@@ -1,5 +1,5 @@
 body{
-    background-color: rgb(10, 9, 9);
+    background-color: #222831;
 }
 
 
@@ -9,8 +9,8 @@ header{
     border-radius: 5px;
     align-items: center;
     height:10vh;
-    background-color: black;
-    box-shadow: 0 2px 5px rgba(73, 212, 84, 0.1); 
+    background-color: #222831;
+    box-shadow: 0 2px 5px rgba(24, 26, 29, 0.1); 
     position: fixed;
     left: 0%;
     right: 0%; 
@@ -25,7 +25,7 @@ header{
 }
 #title{
     font-family:'Times New Roman', Times, serif;
-    color:#1DB954;
+    color: #EEEEEE;
     font-size: 2rem;
    
 }
@@ -34,12 +34,12 @@ header{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     padding: 10px;
-    background-color: black;
+    background-color: #222831;
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    box-shadow: 0 -2px 5px rgba(73, 212, 84, 0.1);
+    box-shadow: 0 -2px 5px rgba(26, 24, 29, 0.3);
     height: 12vh;
 }
 .status{
@@ -53,22 +53,37 @@ header{
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 10px;
 }
 
 .controls button {
-    margin: 0 10px;
+    margin: 0 ;
     padding: 10px 20px;
     font-size: 1rem;
     cursor: pointer;
     border: none;
     border-radius: 50px;
-    background-color: #1DB954; 
+    background-color: #00ADB5; 
     color: white;
     transition: background-color 0.3s ease;
 }
 
+
 .controls button:hover {
-    background-color: #1ed760; 
+    background-color: #30cae6; 
+    
+}
+
+#shuffle, #repeat{
+    background-color: #393E46;
+}
+
+#shuffle:hover, #repeat:hover{
+    background-color: #00ADB5;
+}
+
+.border-teal{
+    border: 1px solid #00ADB5 !important;
 }
 
 #playback-status {
@@ -81,8 +96,23 @@ header{
 
 
 #progress-bar {
-    width: 300px; 
-    height: 10px;
+    width: 25vw; 
+    height: 25%;
+    border-radius: 10px;
+    background-color: #393E46;
+}
+
+#progress-bar:hover {
+    cursor: pointer;
+    box-shadow: 0 0px 4px rgba(215, 219, 219, 0.5);
+}
+
+#progress-bar::-webkit-progress-value {
+    background-color: #EEEEEE; 
+}
+
+#progress-bar::-moz-progress-bar {
+    background-color: #EEEEEE; 
 }
 
 .volume-container {
@@ -92,12 +122,18 @@ header{
 }
 
 #volume-control {
-    width: 100px; 
+    width: 8vw; 
+    height: 3%;
+    accent-color: #969494;
+}
+
+#volume-control:hover{
+    accent-color: #00ADB5;
 }
 
 #volume-icon{
     font-size: 1rem;
-    color: white;  
+    color: #EEEEEE;  
 }
 
 #track-info {
@@ -114,7 +150,7 @@ header{
 
 #track-info span {
     color: white;
-    font-size: 1rem; 
+    font-size: 0.8rem; 
     display: flex;
     flex-wrap: wrap;
     
@@ -136,17 +172,16 @@ header{
 
 #track-columns{
     margin-top: 11vh;
-    color: rgb(161, 161, 161);
+    color: #969494;
+    border-radius: 5px;
+    padding: 20px;
     display: grid;
     grid-template-columns: 0.5fr 2fr 2fr 2fr 1fr;
 }
 
-#tracks-container{
-    color: white;
-}
 
 hr{
-    border: 0.5px solid rgb(161, 161, 161);
+    border: 0.5px solid #969494;
 }
 
 #tracks{
@@ -155,8 +190,7 @@ hr{
     gap: 10px;
     padding: 10px;
     border-radius: 5px;
-    background-color: rgba(0, 0, 0, 0.8);
-    box-shadow: 0 2px 5px rgba(73, 212, 84, 0.1);
+    box-shadow: 0 2px 5px rgba(24, 26, 29, 0.3);
     
 }
 
@@ -165,15 +199,40 @@ hr{
     grid-template-columns: 0.5fr 2fr 2fr 2fr 1fr;
     gap: 10px;
     font-size: 0.8rem;
-    background-color: rgba(0, 0, 0, 0.8); 
+    padding: 10px;
+    border-radius: 5px;
 }
 
 .track:hover{
-    background-color: rgba(0, 0, 0, 0.9);
-    box-shadow: 0 4px 10px rgba(228, 91, 91, 0.3);
+    box-shadow: 0 4px 14px rgba(91, 196, 228, 0.5);
     cursor: pointer;
 }
 
-.track-name, .track-artist, .track-album, .track-duration{
-    color: white;
+.track-name{
+    color: #EEEEEE;
 }
+
+.track-artist, .track-album, .track-duration, .track-number{
+    color: #969494;
+
+}
+
+#track-div{
+    background-color: #393E46;
+    border-radius: 5px;
+}
+
+
+.hover-play{
+    position: absolute;
+    opacity: 0;
+    font-size: 1rem;
+    background-color: #393E46;
+}
+
+.track:hover .hover-play{
+    opacity: 1;
+}
+
+
+

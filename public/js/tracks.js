@@ -39,7 +39,6 @@ window.onSpotifyWebPlaybackSDKReady = async () => {
                     document.getElementById('progress-bar').value = (currentPosition / duration) * 100;
 
                 }
-
             }
 
         } catch(error){
@@ -143,7 +142,6 @@ window.onSpotifyWebPlaybackSDKReady = async () => {
             playTrack(deviceId, trackUris);
         }
       });
-      
 
     player.connect();
 

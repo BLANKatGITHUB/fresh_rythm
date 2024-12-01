@@ -1,6 +1,6 @@
 body{
+
     background-color: #222831;
-}
 
 
 header{
@@ -70,8 +70,7 @@ header{
 
 
 .controls button:hover {
-    background-color: #30cae6; 
-    
+    background-color: #30cae6;  
 }
 
 #shuffle, #repeat{
@@ -179,7 +178,6 @@ header{
     grid-template-columns: 0.5fr 2fr 2fr 2fr 1fr;
 }
 
-
 hr{
     border: 0.5px solid #969494;
 }
@@ -191,7 +189,6 @@ hr{
     padding: 10px;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(24, 26, 29, 0.3);
-    
 }
 
 .track{
@@ -233,6 +230,3 @@ hr{
 .track:hover .hover-play{
     opacity: 1;
 }
-
-
-

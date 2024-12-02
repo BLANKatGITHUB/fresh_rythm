@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Player</title>
-    <link rel="stylesheet" href="css/tracks.css">
+    <link rel="stylesheet" href="../css/tracks.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://sdk.scdn.co/spotify-player.js"></script>
 </head>
@@ -13,30 +13,40 @@
      <img id="logo" src="../images/logo.jpeg"/>
      <h6 id="title">Fresh Rythm</h6>
     </header>
-    <div id="playlist-items">
-        <div id="playlist-header">
-            <div id="playlist-header-img-container">
-                <img id="playlist-header-img" src="">
+
+    <div id="main-container">
+        <div id="playlist-info">
+            <div id="playlist-info-header">
+                <i class="fa-solid fa-book"></i>
+                <span>Playlists</span>
             </div>
-            <div id="playlist-header-info">
-                <span >Playlist</span>
-                <span id="playlist-header-name">Playlist Name</span>
-            </div>
+            <div id ="playlists"></div>
         </div>
-        <div id="track-div">
-            <div id="play-all-div">
-                <button id="play-all"><i class="fas fa-play"></i></button>
+        <div id="playlist-items">
+            <div id="playlist-header">
+                <div id="playlist-header-img-container">
+                    <img id="playlist-header-img" src="" >
+                </div>
+                <div id="playlist-header-info">
+                    <span >Playlist</span>
+                    <span id="playlist-header-name">Playlist Name</span>
+                </div>
             </div>
-            <div id="track-columns">
-                <span>#</span>
-                <span>Title</span>
-                <span>Artist</span>
-                <span>Album</span>
-                <span>Duration</span>
-            </div>
-            <hr>
-            <div id="tracks-container">
-                <div id="tracks"></div>
+            <div id="track-div">
+                <div id="play-all-div">
+                    <button id="play-all"><i class="fas fa-play"></i></button>
+                </div>
+                <div id="track-columns">
+                    <span>#</span>
+                    <span>Title</span>
+                    <span>Artist</span>
+                    <span>Album</span>
+                    <span>Duration</span>
+                </div>
+                <hr>
+                <div id="tracks-container">
+                    <div id="tracks"></div>
+                </div>
             </div>
         </div>
     </div>

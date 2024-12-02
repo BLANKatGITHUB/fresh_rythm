@@ -3,6 +3,7 @@ import axios from "axios";
 import bodyParser from "body-parser";
 import cors from "cors";
 import querystring from "querystring";
+import ejs from "ejs";
 
 const app = express(); // Creating an instance of express
 const port = 3000; // Defining the port number
@@ -17,7 +18,7 @@ app.use(cors()); // Enabling CORS for all routes
 
 // Route to serve the main HTML file
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/public/html/login.html");
+  res.render("login.ejs");
 });
 
 // Route to handle login and get Spotify access token
@@ -39,9 +40,9 @@ app.post(
         },
         { headers: { "Content-Type": "application/x-www-form-urlencoded" } },
       );
-      res.send(result.data.access_token); // Sending the access token as response
+      res.sendFile(__dirname+"/public/html/home.html"); 
     } catch (error) {
-      res.send("Error"); // Sending error response
+      res.render("login.ejs",{err:error}); // Sending error response
       console.error(error); // Logging the error
     }
   },
@@ -49,7 +50,7 @@ app.post(
 
 // Route to get the stored Spotify access token
 app.get('/user_login', (req, res) => {
-  const scope = 'user-library-read user-modify-playback-state user-read-playback-state user-read-currently-playing streaming app-remote-control user-top-read';
+  const scope = 'user-library-read user-modify-playback-state user-read-playback-state user-read-currently-playing streaming app-remote-control user-top-read playlist-read-private';
   const authUrl = 'https://accounts.spotify.com/authorize?' +
       querystring.stringify({
           response_type: 'code',
@@ -78,7 +79,8 @@ app.get('/callback', async (req, res) => {
   try {
     const response = await axios(authOptions);
     accessToken = response.data.access_token;
-    res.json({ access_token: accessToken });
+    // res.sendFile( __dirname + "/public/html/tracks.html");
+    res.sendFile( __dirname + "/public/html/tracks.html");
 } catch (error) {
     res.status(500).json({ error: 'Failed to get access token' });
     console.error(error);

@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
         <title>Document</title>
-        <link rel="stylesheet" href="../css/login.css"/>
+        <link rel="stylesheet" href="css/login.css"/>
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
@@ -18,7 +18,10 @@
         <input type="text" placeholder="username" id="client_id" name="client_id">
         <label for="secret">Password</label>
         <input type="password" placeholder="code" id="secret" name="secret">
-        <button id="submit" value="Submit">Submit</button>      
+        <button id="submit" value="Submit">Submit</button>
+        <% if(locals.err) { %> 
+            <p id="error"> Client id or password is wrong </p>
+        <% } %>    
     </form>
 </body>
 </html>

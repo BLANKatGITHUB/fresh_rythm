@@ -1,6 +1,6 @@
 var accesstoken = "";
 var deviceId = null;
-var savedTracks = [];
+var playableTracks = [];
 
 
     
@@ -180,6 +180,10 @@ function playTrack(device_id, trackUri) {
     });
 }
 
+document.getElementById('play-all').onclick = function() {
+    playTrack(deviceId, playableTracks);
+};
+
 function formatTime(ms) {
     const minutes = Math.floor(ms / 60000);
     const seconds = ((ms % 60000) / 1000).toFixed(0);
@@ -197,6 +201,8 @@ async function getSavedTracks(){
         const data = await response.json();
         const tracks = data.items;
         var count = 0;
+        document.getElementById('playlist-header-name').textContent = 'Saved Tracks';
+        document.getElementById('playlist-header-img').src = '../images/heart.png';
         tracks.forEach(track => {
             const trackElement = document.createElement('div');
             trackElement.classList.add('track');
@@ -212,7 +218,7 @@ async function getSavedTracks(){
                 playTrack(deviceId, [this.dataset.uri]);
             };
             document.getElementById('tracks').appendChild(trackElement);
-            savedTracks.push(track.track.uri);
+            playableTracks.push(track.track.uri);
         });
     }
     catch(error){
@@ -264,3 +270,81 @@ async function setShuffle(value){
         console.error('Error:', error);
 }
 }
+
+
+
+async function displayPlaylistTracks(playListId){
+    try{
+        const response = await fetch(`https://api.spotify.com/v1/playlists/${playListId}`, {
+            headers: {
+                Authorization: `Bearer ${accesstoken}`,
+                'Content-Type': 'application/json'
+            },
+        });
+
+        const data = await response.json();
+
+        document.getElementById("playlist-header-img").src = data.images[0].url;
+        document.getElementById("playlist-header-name").textContent = data.name;
+
+        const tracks = data.tracks.items;
+
+        var count = 0;
+
+        tracks.forEach(track => {
+            const trackElement = document.createElement('div');
+            trackElement.classList.add('track');
+            trackElement.innerHTML = `
+                <span class="track-number"><i class="fas fa-play hover-play"></i>${++count}</span>
+                <span class="track-name">${track.track.name}</span>
+                <span class="track-artist">${track.track.artists.map(a => a.name).join(', ')}</span>
+                <span class="track-album">${track.track.album.name}</span>
+                <span class="track-duration">${formatTime(track.track.duration_ms)}</span>
+            `
+            trackElement.dataset.uri = track.track.uri;
+            trackElement.onclick = function() {
+                playTrack(deviceId, [this.dataset.uri]);
+            };
+            document.getElementById('tracks').appendChild(trackElement);
+            playableTracks.push(track.track.uri);
+        });
+    }
+    catch(error){
+        console.error('Error:', error);
+    }
+}
+
+// Function to get the dominant color of an image
+function getDominantColor(imgEl) {
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    canvas.width = imgEl.width;
+    canvas.height = imgEl.height;
+    context.drawImage(imgEl, 0, 0, imgEl.width, imgEl.height);
+    const imageData = context.getImageData(0, 0, imgEl.width, imgEl.height);
+    const data = imageData.data;
+    const length = data.length;
+    const color = { r: 0, g: 0, b: 0 };
+    let count = 0;
+
+    for (let i = 0; i < length; i += 4) {
+        color.r += data[i];
+        color.g += data[i + 1];
+        color.b += data[i + 2];
+        count++;
+    }
+
+    color.r = Math.floor(color.r / count);
+    color.g = Math.floor(color.g / count);
+    color.b = Math.floor(color.b / count);
+
+    // Add transparency (alpha value)
+    const alpha = 0.5; // Adjust the transparency level here (0.0 to 1.0)
+    return `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha})`;
+}
+
+// Set the background color of the playlist header
+document.getElementById('playlist-header-img').addEventListener('load', function() {
+    const dominantColor = getDominantColor(document.getElementById('playlist-header-img'));
+    document.getElementById('playlist-header').style.backgroundColor = dominantColor;
+});

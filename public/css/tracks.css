@@ -94,7 +94,6 @@ header div{
     border-radius: 5px;
 }
 
-
 #main-container{
     display: grid;
     grid-template-columns: 2fr 7fr;

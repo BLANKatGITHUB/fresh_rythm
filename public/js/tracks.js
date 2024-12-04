@@ -6,7 +6,7 @@ var playableTracks = [];
     
 window.onSpotifyWebPlaybackSDKReady = async () => {
     try {
-    let response = await fetch('http://localhost:3000/spotify_token');
+    let response = await fetch('https://bliss-music.onrender.com/spotify_token');
     const data = await response.json();
     accesstoken = data.accessToken;
     const token = accesstoken;
@@ -142,6 +142,21 @@ window.onSpotifyWebPlaybackSDKReady = async () => {
             playTrack(deviceId, trackUris);
         }
       });
+
+    document.getElementById('search-btn').onclick = function(event) {
+        event.stopPropagation();
+        document.getElementById('results').style.display = 'flex';
+        document.getElementById('tracks').classList.add("hidden");
+        const query = document.getElementById('search').value;
+        displaySearchResults(query);
+    }
+
+    document.onclick = function(event) {
+        if (event.target.id !== 'search' && event.target.id !== 'search-btn') {
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('tracks').classList.remove("hidden");
+        }
+    }
 
     player.connect();
 
@@ -447,3 +462,47 @@ function updatePlaylistHeaderColor() {
 
 
 document.getElementById('playlist-header-img').addEventListener('load', updatePlaylistHeaderColor);
+
+async function getSearchResult(query){
+    try{
+        const response = await fetch(`https://api.spotify.com/v1/search?q=${query}&type=track&limit=10`, {
+            headers: {
+                Authorization: `Bearer ${accesstoken}`,
+                'Content-Type': 'application/json'
+            },
+        });
+
+        const data = await response.json();
+        return data.tracks.items;
+    }
+    catch(error){
+        console.error('Error:', error);
+    }
+}
+
+async function displaySearchResults(query){
+    try{
+        const tracks = await getSearchResult(query);
+        document.getElementById('results').innerHTML = '';
+        var count = 0;
+
+        tracks.forEach(track => {
+            const trackElement = document.createElement('div');
+            trackElement.classList.add('result');
+            trackElement.innerHTML = `
+                <span class="track-number"><i class="fas fa-play hover-play"></i>${++count}</span>
+                <span><img src="${track.album.images[0].url}" class="track-img"></span>
+                <span class="track-name">${track.name} by ${track.artists.map(a=>a.name).join(", ")}</span>
+                `
+            trackElement.dataset.uri = track.uri;
+            trackElement.onclick = function(event) {
+                playTrack(deviceId, [this.dataset.uri]);
+                event.stopPropagation();
+            };
+            document.getElementById('results').appendChild(trackElement);
+            });
+        }
+        catch(error){
+            console.error('Error:', error);
+        }
+    }

@@ -6,7 +6,7 @@ body{
 
 header{
     display:flex;
-    gap: 10px;
+    gap: 4.5%;
     border-radius: 5px;
     align-items: center;
     height:10vh;
@@ -17,6 +17,81 @@ header{
     right: 0%; 
     top: 0%;
 
+}
+
+header div{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}   
+
+#search{
+    width: 30vw;
+    height: 3%;
+    border-radius: 5px;
+    padding: 10px;
+    border: none;
+    background-color: #393E46;
+    color: #EEEEEE;
+}
+
+#search::placeholder{
+    color: #969494;
+}
+
+#search:focus{
+    outline: none;
+    border: 1px solid #00ADB5;
+}
+
+#search-btn{
+    background-color: #393E46;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    color: #969494;
+}
+
+#search-btn:hover{
+    background-color: #00ADB5;
+    color: #EEEEEE;
+}
+
+
+#results{
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(24, 26, 29, 0.3);
+    background-color: #393E46;
+    position: absolute;
+    width: 73vw;
+}
+
+.result{
+    display: grid;
+    grid-template-columns: 0.5fr 1.5fr 5fr;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.result:hover{
+    box-shadow: 0 4px 14px rgba(91, 196, 228, 0.5);
+    cursor: pointer;
+}
+
+.result:hover .hover-play{
+    opacity: 1;
+}
+
+.result img{
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
 }
 
 #main-container{
@@ -330,6 +405,10 @@ hr{
     border: none;
     font-size: 2rem;
 } 
+
+#play-all:hover{
+    background-color: #30cae6;
+}
 
 
 #play-all-div{

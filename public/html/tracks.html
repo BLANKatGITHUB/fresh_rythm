@@ -10,8 +10,14 @@
 </head>
 <body>
     <header>
-     <img id="logo" src="../images/logo.jpeg"/>
-     <h6 id="title">Fresh Rythm</h6>
+        <div>
+            <img id="logo" src="../images/logo.jpeg"/>
+            <h6 id="title">Fresh Rythm</h6>
+        </div>
+        <div id="search-container">
+            <input type="text" id="search" placeholder="Search for your favourite songs">
+            <button id="search-btn"><i class="fas fa-search"></i></button>
+        </div>
     </header>
 
     <div id="main-container">
@@ -23,6 +29,7 @@
             <div id ="playlists"></div>
         </div>
         <div id="playlist-items">
+            <div id="results"></div>
             <div id="playlist-header">
                 <div id="playlist-header-img-container">
                     <img id="playlist-header-img" src="" >

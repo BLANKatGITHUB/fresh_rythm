@@ -11,7 +11,7 @@ const __dirname = import.meta.dirname; // Getting the directory name of the curr
 var clientId = '';
 var clientSecret = '';
 var accessToken = '';
-const redirectUri = 'http://localhost:3000/callback';
+const redirectUri = 'https://bliss-music.onrender.com/callback';
 
 app.use(express.static(__dirname + "/public/")); // Serving static files from the "public" directory
 app.use(cors()); // Enabling CORS for all routes

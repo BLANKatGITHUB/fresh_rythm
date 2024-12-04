@@ -6,7 +6,7 @@ var playableTracks = [];
     
 window.onSpotifyWebPlaybackSDKReady = async () => {
     try {
-    let response = await fetch('http://localhost:3000/spotify_token');
+    let response = await fetch('https://bliss-music.onrender.com/spotify_token');
     const data = await response.json();
     accesstoken = data.accessToken;
     const token = accesstoken;

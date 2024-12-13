@@ -1,6 +1,7 @@
 body{
 
     background-color: #222831;
+    font-family: 'Open Sans', sans-serif;
 
 }
 
@@ -108,7 +109,7 @@ header div{
     height:40px;
 }
 #title{
-    font-family:'Times New Roman', Times, serif;
+    font-family:'Roboto', sans-serif;
     color: #EEEEEE;
     font-size: 2rem;
    

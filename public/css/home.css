@@ -122,4 +122,5 @@ main .chill-out .chill-out-items{
     height: 170px;
     border: 1px solid #ffffff;
     border-radius: 8%;
+    margin: 10px; /* Add this line */
 }
